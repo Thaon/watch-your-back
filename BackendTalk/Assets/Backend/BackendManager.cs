@@ -104,9 +104,10 @@ namespace MADD
                 email = email
             };
 
-            QueryResult res = await API.Post<MailAssociationData, QueryResult>(_serverUrl + "/update-email", body);
+            MailAssociationData res = await API.Post<MailAssociationData>(_serverUrl + "/update-email", body);
             if (res.status == "success")
             {
+                _profile = res.user;
                 OnProfileUpdated?.Invoke();
                 OnEmailConnected?.Invoke();
                 return "success";

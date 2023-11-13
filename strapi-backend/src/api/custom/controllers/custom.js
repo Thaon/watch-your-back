@@ -102,24 +102,29 @@ module.exports = {
         populate: true,
       });
     if (confirmingUser == null) {
-      return ctx.send({ status: "Could not find Player" });
+      return ctx.send({ user: null, status: "Could not find Player" });
     }
 
     // check if the user already has an email
     if (confirmingUser.email && confirmingUser.email != "") {
-      return ctx.send({ status: "Email already updated" });
+      return ctx.send({
+        user: confirmingUser,
+        status: "Email already updated",
+      });
     }
 
     //update user email
-    await strapi.query("plugin::users-permissions.user").update({
-      where: {
-        id: confirmingUser.id,
-      },
-      data: { email: email },
-    });
+    confirmingUser = await strapi
+      .query("plugin::users-permissions.user")
+      .update({
+        where: {
+          id: confirmingUser.id,
+        },
+        data: { email: email },
+      });
 
     //return OK
-    return ctx.send({ status: "success" });
+    return ctx.send({ user: confirmingUser, status: "success" });
   },
 
   trackMilestone: async (ctx) => {

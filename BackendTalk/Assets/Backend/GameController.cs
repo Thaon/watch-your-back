@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour
     #region member variables
 
     public int _score = 0;
-    public GameObject _configPanel, _gamePanel, _leaderboardsContainer, _leaderboardEntryPrefab;
+    public GameObject _configPanel, _gamePanel, _leaderboardsContainer, _leaderboardEntryPrefab, _connectEmailBtn;
     public TextMeshProUGUI _scoreCounter, _playerUsername, _leaderboardName;
     public TMP_InputField _usernameInput, _emailInput;
 
@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour
         BackendManager.Instance.OnLeaderboardUpdated += UpdateLeaderboardsUI;
 
         BackendManager.Instance.OnProfileUpdated += UpdateUserUI;
+        BackendManager.Instance.OnEmailConnected += EmailConnected;
 
         BackendManager.Instance.OnLoginSuccessful += SetupGameUI;
         BackendManager.Instance.OnProfileUpdated += SetupGameUI;
@@ -36,6 +37,7 @@ public class GameController : MonoBehaviour
             BackendManager.Instance.OnLeaderboardUpdated -= UpdateLeaderboardsUI;
 
             BackendManager.Instance.OnProfileUpdated -= UpdateUserUI;
+            BackendManager.Instance.OnEmailConnected -= EmailConnected;
 
             BackendManager.Instance.OnProfileUpdated -= SetupGameUI;
             BackendManager.Instance.OnLoginSuccessful -= SetupGameUI;
@@ -74,6 +76,20 @@ public class GameController : MonoBehaviour
     private void UpdateUserUI()
     {
         _playerUsername.text = BackendManager.Instance._profile.username;
+        bool emailIsPresent = BackendManager.Instance._profile.email.Length > 0;
+        _connectEmailBtn.SetActive(!emailIsPresent);
+    }
+
+    public void UpdateEmail()
+    {
+        string newEmail = _emailInput.text;
+        BackendManager.Instance.ConnectAccount(newEmail);
+    }
+
+    private void EmailConnected()
+    {
+        Debug.Log("Email has been connected, give the user a prize!");
+        BackendManager.Instance.TrackMilestone("email_connected");
     }
 
     #endregion
@@ -111,6 +127,8 @@ public class GameController : MonoBehaviour
 
         // track a milestone
         if (_score >= 50) BackendManager.Instance.TrackMilestone("over_50");
+        // NOTE: this is not a good example of milestones as the score can keep increasing a lot and each time it gets posted to the backend
+        // A better example would be with the email, like it's done above
     }
 
     public void SubmitScore()

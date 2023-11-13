@@ -35,6 +35,7 @@ namespace MADD
         public string deviceID;
         public string email;
         public string status;
+        public Profile user;
     }
 
     [System.Serializable]
