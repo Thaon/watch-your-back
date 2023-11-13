@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "milestones",
+  "info": {
+    "singularName": "milestone",
+    "pluralName": "milestones",
+    "displayName": "milestone",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "players": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "milestones"
+    },
+    "name": {
+      "type": "string"
+    }
+  }
+}

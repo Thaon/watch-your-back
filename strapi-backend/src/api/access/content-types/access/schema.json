@@ -1,0 +1,20 @@
+{
+  "kind": "collectionType",
+  "collectionName": "accesses",
+  "info": {
+    "singularName": "access",
+    "pluralName": "accesses",
+    "displayName": "access"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "players": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}

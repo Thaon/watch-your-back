@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "leaderboards",
+  "info": {
+    "singularName": "leaderboard",
+    "pluralName": "leaderboards",
+    "displayName": "leaderboard"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "scores": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::score.score",
+      "mappedBy": "leaderboard"
+    }
+  }
+}
