@@ -125,7 +125,7 @@ namespace MADD
                 payload = milestoneName
             };
             QueryResult res = await API.Post<QueryResult>(_serverUrl + "/track-milestone", body);
-            if (res.status != "success")
+            if (res == null || res.status != "success")
                 Debug.LogWarning(res.status);
         }
 

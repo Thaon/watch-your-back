@@ -108,6 +108,9 @@ public class GameController : MonoBehaviour
     {
         _score++;
         _scoreCounter.text = _score.ToString();
+
+        // track a milestone
+        if (_score >= 50) BackendManager.Instance.TrackMilestone("over_50");
     }
 
     public void SubmitScore()
